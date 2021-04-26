@@ -108,10 +108,9 @@ class TestDataBase(TestCase):
         # ///////////////////////////////////////////////////////////////////////////
 
         with mock.patch("app.database.DataBase.cursor", create=True) as mock_cursor:
-            mock_cursor.execute.side_effect = [0, 1]
-            self.assertFalse(DataBase().read_all_data(""))
-            self.assertTrue(DataBase().read_all_data(""))
-
+            mock_cursor.return_value = 0
+            resultado = DataBase().read_all_data("")
+        self.assertEqual(resultado, [])
         self.assertFalse(DataBase().read_all_data(""))
 
 
@@ -131,9 +130,9 @@ class TestDataBase(TestCase):
         mock_is_database_selected.return_value = True
 
         with mock.patch("app.database.DataBase.cursor", create=True) as mock_cursor:
-            mock_cursor.execute.side_effect = [0, 1]
-            self.assertFalse(DataBase().read_selected_data("", "", ""))
-            self.assertTrue(DataBase().read_selected_data("", "", ""))
+            mock_cursor.return_value = 0
+            resultado = DataBase().read_selected_data("", "", "")
+            self.assertEqual(resultado, [])
         self.assertFalse(DataBase().read_selected_data("", "", ""))
 
     def test_convert_dict_to_sql_string_works(self):

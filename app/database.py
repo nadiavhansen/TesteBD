@@ -67,21 +67,12 @@ class DataBase:
         if not self.is_database_selected():
             raise Exception("Database is not selected!")
 
-        # string_values = self.convert_list_to_sql_string(data)
         sql = f"""SELECT * FROM {table_to_read}"""
-        lista = []
         try:
-            affected_rows = self.cursor.execute(sql)
-
-            for i in self.cursor.fetchall():
-                lista.append(i)
-
-            if affected_rows > 0:
-                return lista
+            self.cursor.execute(sql)
+            return list(self.cursor.fetchall())
         except:
-            return lista
-
-        return False
+            return False
 
     def read_selected_data(self, table_to_read: str, column_to_reference: str, value_to_reference: str):
         if not self.conn_and_cursor_exist():
@@ -89,21 +80,13 @@ class DataBase:
         if not self.is_database_selected():
             raise Exception("Database is not selected!")
 
-        # string_values = self.convert_list_to_sql_string(data)
         sql = f"""SELECT * FROM {table_to_read} WHERE {column_to_reference} = '{value_to_reference}'"""
-
         try:
-            affected_rows = self.cursor.execute(sql)
-
-            for i in self.cursor.fetchall():
-                return i
-
-            if affected_rows > 0:
-                return True
+            self.cursor.execute(sql)
+            return list(self.cursor.fetchall())
         except:
             return False
 
-        return False
 
     def convert_dict_to_sql_string(self, data: dict, separator=",") -> str:
         converted_to_sql_data = []
@@ -122,11 +105,9 @@ class DataBase:
         if not self.is_database_selected():
             raise Exception("Database is not selected!")
 
-        # keys_and_values = dict(Nome="Julia", Idade=15, Altura=1.88, CPF="10010010013")
         data_to_update = DataBase().convert_dict_to_sql_string(values_to_uptade)
         sql = f"""UPDATE {table_to_uptade} SET {data_to_update} WHERE 
                 {column_to_reference} = '{value_to_reference}'"""
-
         try:
             affected_rows = self.cursor.execute(sql)
             if affected_rows > 0:
@@ -143,7 +124,6 @@ class DataBase:
             raise Exception("Database is not selected!")
 
         sql = f"""DELETE FROM {table_to_delete} WHERE {column_to_reference} = '{value_to_reference}'"""
-
         try:
             affected_rows = self.cursor.execute(sql)
             if affected_rows > 0:
@@ -159,7 +139,7 @@ teste.create_connection_and_cursor("testunit")
 teste.conn_and_cursor_exist()
 teste.is_database_selected()
 # teste.insert_data("tabela1", ["Gusta", 11, 1.44, "10010010015"])
-teste.read_all_data("tabela1")
+# print(teste.read_all_data("tabela1"))
 # print(teste.read_selected_data("tabela1", "Nome", "Laura"))
 # teste.update_data("tabela1", "Idade", "13", "Nome", "João")
 # teste.update_data("tabela1", "Nome, Idade", "João da Silva, 12", "Nome", "João")
@@ -179,6 +159,51 @@ teste.read_all_data("tabela1")
 #
 #     try:
 #         affected_rows = self.cursor.execute(sql)
+#         if affected_rows > 0:
+#             return True
+#     except:
+#         return False
+#
+#     return False
+#
+# def read_all_data(self, table_to_read: str):
+#     if not self.conn_and_cursor_exist():
+#         raise Exception("Connetion or cursor is not defined!")
+#     if not self.is_database_selected():
+#         raise Exception("Database is not selected!")
+#
+#     # string_values = self.convert_list_to_sql_string(data)
+#     sql = f"""SELECT * FROM {table_to_read}"""
+#     lista = []
+#     try:
+#         affected_rows = self.cursor.execute(sql)
+#
+#         for i in self.cursor.fetchall():
+#             lista.append(i)
+#
+#         if affected_rows > 0:
+#             return lista
+#     except:
+#         return lista
+#
+#     return False
+#
+#
+# def read_selected_data(self, table_to_read: str, column_to_reference: str, value_to_reference: str):
+#     if not self.conn_and_cursor_exist():
+#         raise Exception("Connetion or cursor is not defined!")
+#     if not self.is_database_selected():
+#         raise Exception("Database is not selected!")
+#
+#     # string_values = self.convert_list_to_sql_string(data)
+#     sql = f"""SELECT * FROM {table_to_read} WHERE {column_to_reference} = '{value_to_reference}'"""
+#
+#     try:
+#         affected_rows = self.cursor.execute(sql)
+#
+#         for i in self.cursor.fetchall():
+#             return i
+#
 #         if affected_rows > 0:
 #             return True
 #     except:
